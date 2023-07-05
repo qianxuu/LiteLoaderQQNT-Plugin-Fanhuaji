@@ -9,7 +9,7 @@ LiteLoaderQQNT Telegram 闲聊群：https://t.me/LiteLoaderQQNT
 # 用法
 
 1. 安装 LiteLoaderQQNT 本体
-2. 在 LiteLoaderQQNT 插件目录克隆本插件（在 LiteLoaderQQNT 支持安装依赖前，本仓库会上传 `node_modules` 目录，以便用户无需安装完整的 Node.js 环境）
+2. 在 LiteLoaderQQNT 插件目录克隆本仓库（在 LiteLoaderQQNT 支持安装依赖前，本仓库会上传 `node_modules` 目录，以便用户无需安装完整的 Node.js 环境）
 3. 启动 QQNT
 4. 右键消息，选择繁化姬
 
