@@ -1,14 +1,7 @@
 const { ipcMain } = require('electron')
 const axios = require('axios')
-const fs = require('fs')
-const path = require('path')
 
 function onLoad() {
-  // 读取图标
-  const icon = fs.readFileSync(path.join(__dirname, './icon.ico'))
-  ipcMain.handle('fanhuaji.icon', () => {
-    return `data:image/x-icon;base64,${icon.toString('base64')}`
-  })
   // 繁化姬转换
   ipcMain.handle('fanhuaji.convert', async (_, text) => {
     const res = await covert(text)

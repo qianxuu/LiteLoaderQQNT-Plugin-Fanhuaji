@@ -1,51 +1,46 @@
 function onLoad() {
   document.addEventListener('contextmenu', (event) => {
-    if (event.target.className === 'text-normal') {
+    const { classList, innerText } = event.target
+    if (['text-normal', 'message-content', 'msg-content-container'].includes(classList[0])) {
+      // 获取右键菜单
       const qContextMenu = document.getElementById('qContextMenu')
-
       // 插入分隔线
       const separator = document.createElement('div')
       separator.classList.add('q-context-menu-separator')
-      separator.role = 'separator'
+      separator.setAttribute('role', 'separator')
       qContextMenu.appendChild(separator)
-      // 插入菜单项
+      // 插入繁化姬
       const fanhuaji = document.createElement('a')
       fanhuaji.classList.add('q-context-menu-item', 'q-context-menu-item--normal')
       fanhuaji.setAttribute('aria-disabled', 'false')
       fanhuaji.setAttribute('role', 'menuitem')
       fanhuaji.setAttribute('tabindex', '-1')
-      // 插入图标
-      const icon = document.createElement('div')
-      icon.classList.add('q-context-menu-item__icon', 'q-context-menu-item__head')
-      const img = document.createElement('img')
-      img.classList.add('q-icon')
-      window.fanhuaji.icon().then((res) => {
-        img.setAttribute('src', res)
-      })
-      icon.appendChild(img)
-      fanhuaji.appendChild(icon)
-      // 插入文本
-      const text = document.createElement('span')
-      text.classList.add('q-context-menu-item__text')
-      text.textContent = '繁化姬'
-      fanhuaji.appendChild(text)
+      fanhuaji.innerHTML = `
+      <div class="q-context-menu-item__icon q-context-menu-item__head">
+        <img
+          class="q-icon"
+          src="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAA//8AAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAICZAACAmQAAnJkAAM6ZAADOmQAAz5kAAOeBAADngQAA85kAALOZAACYmQAAmJkAAICZAAD//wAA//8AAA=="
+        />
+      </div>
+      <span class="q-context-menu-item__text">繁化姬</span>
+      `
       qContextMenu.appendChild(fanhuaji)
-      // 调整菜单位置
+      // 调整右键菜单位置
       const rect = qContextMenu.getBoundingClientRect()
       if (rect.bottom > window.innerHeight) {
         qContextMenu.style.top = `${window.innerHeight - rect.height}px`
       }
-
       // 添加繁化姬点击事件
       fanhuaji.addEventListener('click', () => {
         // 繁化姬转换
-        window.fanhuaji.convert(event.target.innerText).then((res) => {
-          if (res !== event.target.innerText) {
-            event.target.innerText = `${event.target.innerText}\n\n\n繁化姬：\n${res}`
+        window.fanhuaji.convert(innerText).then((res) => {
+          const unconverted = !innerText.includes('\n\n\n繁化姬：\n')
+          if (res !== innerText && unconverted) {
+            event.target.innerText = `${innerText}\n\n\n繁化姬：\n${res}`
           }
         })
         // 关闭右键菜单
-        qContextMenu.style.display = 'none'
+        qContextMenu.remove()
       })
     }
   })
