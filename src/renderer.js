@@ -33,12 +33,27 @@ function onLoad() {
       // 添加繁化姬点击事件
       fanhuaji.addEventListener('click', () => {
         // 繁化姬转换
-        window.fanhuaji.convert(innerText).then((res) => {
-          const unconverted = !innerText.includes('\n\n\n繁化姬：\n')
-          if (res !== innerText && unconverted) {
-            event.target.innerText = `${innerText}\n\n\n繁化姬：\n${res}`
-          }
+        fetch('https://api.zhconvert.org/convert', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: innerText,
+            converter: 'China',
+          }),
         })
+          .then((res) => res.json())
+          .then((json) => {
+            const { code, msg, data } = json
+            if (code !== 0) {
+              throw new Error(msg)
+            }
+            const unconverted = !innerText.includes('\n\n\n繁化姬：\n')
+            if (data.text !== innerText && unconverted) {
+              event.target.innerText = `${innerText}\n\n\n繁化姬：\n${data.text}`
+            }
+          })
         // 关闭右键菜单
         qContextMenu.remove()
       })
