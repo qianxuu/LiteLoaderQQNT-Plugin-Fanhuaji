@@ -1,3 +1,6 @@
+const { getConfig, setConfig } = window.fanhuaji
+const { plugin: pluginPath, data: dataPath } = LiteLoader.plugins.fanhuaji.path
+
 const fanhuajiInnerHTML = `
 <div class="q-context-menu-item__icon q-context-menu-item__head">
   <img
@@ -52,28 +55,60 @@ function onLoad() {
 // 繁化姬转换
 const fanhuajiConvert = (text) => {
   return new Promise((resolve, reject) => {
-    fetch('https://api.zhconvert.org/convert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text,
-        converter: 'China',
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        const { code, msg, data } = json
-        if (code !== 0) {
-          reject(new Error(msg))
-        }
-        const unconverted = !text.includes('\n\n\n繁化姬：\n')
-        if (data.text !== text && unconverted) {
-          resolve(`${text}\n\n\n繁化姬：\n${data.text}`)
-        }
+    // 获取配置
+    getConfig(dataPath).then((config) => {
+      const { converter } = config
+      // 调用繁化姬 API
+      fetch('https://api.zhconvert.org/convert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text,
+          converter,
+        }),
       })
+        .then((res) => res.json())
+        .then((json) => {
+          const { code, msg, data } = json
+          if (code !== 0) {
+            reject(new Error(msg))
+          }
+          const unconverted = !text.includes('\n\n\n繁化姬：\n')
+          if (data.text !== text && unconverted) {
+            resolve(`${text}\n\n\n繁化姬：\n${data.text}`)
+          }
+        })
+    })
   })
 }
 
-export { onLoad }
+async function onConfigView(view) {
+  const htmlFilePath = `file:///${pluginPath}/src/settings/settings.html`
+  const cssFilePath = `file:///${pluginPath}/src/settings/settings.css`
+
+  const htmlText = await (await fetch(htmlFilePath)).text()
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(htmlText, 'text/html')
+  doc.querySelectorAll('section').forEach((node) => view.appendChild(node))
+
+  const css = document.createElement('link')
+  css.rel = 'stylesheet'
+  css.href = cssFilePath
+  document.head.appendChild(css)
+
+  const converterSelect = view.querySelector('#converterSelect')
+
+  // 获取配置
+  getConfig(dataPath).then((config) => {
+    converterSelect.value = config.converter
+  })
+
+  // 修改配置
+  converterSelect.addEventListener('change', () => {
+    setConfig(dataPath, converterSelect.value)
+  })
+}
+
+export { onLoad, onConfigView }
