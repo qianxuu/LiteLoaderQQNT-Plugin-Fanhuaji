@@ -1,3 +1,13 @@
+const fanhuajiInnerHTML = `
+<div class="q-context-menu-item__icon q-context-menu-item__head">
+  <img
+    class="q-icon"
+    src="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAA//8AAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAICZAACAmQAAnJkAAM6ZAADOmQAAz5kAAOeBAADngQAA85kAALOZAACYmQAAmJkAAICZAAD//wAA//8AAA=="
+  />
+</div>
+<span class="q-context-menu-item__text">繁化姬</span>
+`
+
 function onLoad() {
   document.addEventListener('contextmenu', (event) => {
     const { classList, innerText } = event.target
@@ -15,15 +25,7 @@ function onLoad() {
       fanhuaji.setAttribute('aria-disabled', 'false')
       fanhuaji.setAttribute('role', 'menuitem')
       fanhuaji.setAttribute('tabindex', '-1')
-      fanhuaji.innerHTML = `
-      <div class="q-context-menu-item__icon q-context-menu-item__head">
-        <img
-          class="q-icon"
-          src="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAAAAAAAAAAAA//8AAP//AAAAAAAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAD//wAA//8AAP//AAAAAAAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAAAAAAAAAAD//wAA//8AAAAAAAAAAAAA//8AAP//AAD//wAAAAAAAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAAAAAAAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAAAAAAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAICZAACAmQAAnJkAAM6ZAADOmQAAz5kAAOeBAADngQAA85kAALOZAACYmQAAmJkAAICZAAD//wAA//8AAA=="
-        />
-      </div>
-      <span class="q-context-menu-item__text">繁化姬</span>
-      `
+      fanhuaji.innerHTML = fanhuajiInnerHTML
       qContextMenu.appendChild(fanhuaji)
       // 调整右键菜单位置
       const rect = qContextMenu.getBoundingClientRect()
@@ -33,31 +35,44 @@ function onLoad() {
       // 添加繁化姬点击事件
       fanhuaji.addEventListener('click', () => {
         // 繁化姬转换
-        fetch('https://api.zhconvert.org/convert', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            text: innerText,
-            converter: 'China',
-          }),
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            const { code, msg, data } = json
-            if (code !== 0) {
-              throw new Error(msg)
-            }
-            const unconverted = !innerText.includes('\n\n\n繁化姬：\n')
-            if (data.text !== innerText && unconverted) {
-              event.target.innerText = `${innerText}\n\n\n繁化姬：\n${data.text}`
-            }
+        fanhuajiConvert(innerText)
+          .then((text) => {
+            event.target.innerText = text
+          })
+          .catch((error) => {
+            console.error(error)
           })
         // 关闭右键菜单
         qContextMenu.remove()
       })
     }
+  })
+}
+
+// 繁化姬转换
+const fanhuajiConvert = (text) => {
+  return new Promise((resolve, reject) => {
+    fetch('https://api.zhconvert.org/convert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+        converter: 'China',
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        const { code, msg, data } = json
+        if (code !== 0) {
+          reject(new Error(msg))
+        }
+        const unconverted = !text.includes('\n\n\n繁化姬：\n')
+        if (data.text !== text && unconverted) {
+          resolve(`${text}\n\n\n繁化姬：\n${data.text}`)
+        }
+      })
   })
 }
 
