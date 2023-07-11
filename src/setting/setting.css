@@ -1,0 +1,39 @@
+.fanhuaji-setting .setting-item-title {
+  color: var(--text_primary);
+  font-size: min(var(--font_size_3), 18px);
+  font-weight: var(--font-bold);
+  line-height: min(var(--line_height_3), 24px);
+  margin: 0 0 8px 16px;
+}
+
+.fanhuaji-setting .setting-item-content {
+  background-color: var(--fill_light_primary);
+  margin-bottom: 24px;
+  padding: 0 16px;
+  border-radius: 8px;
+}
+
+.fanhuaji-setting .setting-item-content .converter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+#converterSelect {
+  background-color: transparent;
+  color: var(--text_primary);
+  font-size: 13px;
+  width: 150px;
+  padding: 2px 8px 1px;
+  border-radius: 4px;
+  border: 1px solid var(--border_dark);
+}
+
+#converterSelect:focus {
+  outline: none;
+}
+
+#converterSelect option {
+  background-color: var(--fill_light_primary);
+}
