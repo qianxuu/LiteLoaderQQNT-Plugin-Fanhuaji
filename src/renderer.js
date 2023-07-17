@@ -4,7 +4,7 @@ const { plugin: pluginPath, data: dataPath } = LiteLoader.plugins.fanhuaji.path
 const separatorHTML = `
 <div class="q-context-menu-separator" role="separator"></div>
 `
-const fanhuajiInnerHTML = `
+const fanhuajiHTML = `
 <a
   id="fanhuaji"
   class="q-context-menu-item q-context-menu-item--normal"
@@ -31,7 +31,7 @@ function onLoad() {
       // 插入分隔线
       qContextMenu.insertAdjacentHTML('beforeend', separatorHTML)
       // 插入繁化姬
-      qContextMenu.insertAdjacentHTML('beforeend', fanhuajiInnerHTML)
+      qContextMenu.insertAdjacentHTML('beforeend', fanhuajiHTML)
       // 调整右键菜单位置
       const rect = qContextMenu.getBoundingClientRect()
       if (rect.bottom > window.innerHeight) {
@@ -107,6 +107,7 @@ async function onConfigView(view) {
   link.href = cssFilePath
   document.head.appendChild(link)
 
+  // 获取转换器选择器
   const converterSelect = view.querySelector('#converterSelect')
 
   // 获取配置
