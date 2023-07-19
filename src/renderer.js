@@ -35,7 +35,7 @@ function onLoad() {
       // 调整右键菜单位置
       const rect = qContextMenu.getBoundingClientRect()
       if (rect.bottom > window.innerHeight) {
-        qContextMenu.style.top = `${window.innerHeight - rect.height}px`
+        qContextMenu.style.top = `${window.innerHeight - rect.height - 8}px`
       }
       // 监听繁化姬点击
       const fanhuaji = qContextMenu.querySelector('#fanhuaji')
