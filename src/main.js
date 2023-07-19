@@ -39,6 +39,4 @@ function onLoad() {
   })
 }
 
-module.exports = {
-  onLoad,
-}
+module.exports = { onLoad }

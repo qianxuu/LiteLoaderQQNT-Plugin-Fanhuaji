@@ -21,10 +21,10 @@ const fanhuajiHTML = `
 </a>
 `
 
-function onLoad() {
+const onLoad = () => {
   document.addEventListener('contextmenu', (event) => {
     const { target } = event
-    const { classList, innerText } = target
+    const { classList } = target
     if (['text-normal', 'message-content', 'msg-content-container'].includes(classList[0])) {
       // 获取右键菜单
       const qContextMenu = document.querySelector('#qContextMenu')
@@ -40,23 +40,57 @@ function onLoad() {
       // 监听繁化姬点击
       const fanhuaji = qContextMenu.querySelector('#fanhuaji')
       fanhuaji.addEventListener('click', () => {
-        // 繁化姬转换
+        // 获取最里层元素
         const textNormal = target.querySelector('.text-normal')
-        fanhuajiConvert(textNormal ? textNormal.innerText : innerText)
-          .then((text) => {
-            if (textNormal) {
-              textNormal.innerText = text
-              return
-            }
-            target.innerText = text
-          })
-          .catch((error) => {
-            console.error(error)
-          })
+        const targetElement = textNormal ? textNormal : target
+        // 判断是否转换过
+        const unconverted = !targetElement.innerText.includes('\n\n\n繁化姬：\n')
+        if (unconverted) {
+          const { innerText: rawText } = targetElement
+          // 添加转换中提示
+          targetElement.innerText = `${rawText}\n\n\n繁化姬：\n转换中...`
+          // 繁化姬转换
+          fanhuajiConvert(rawText)
+            .then((text) => {
+              targetElement.innerText = `${rawText}\n\n\n繁化姬：\n${text}`
+            })
+            .catch((error) => {
+              targetElement.innerText = `${rawText}\n\n\n繁化姬：\n转换失败！`
+              console.error(error)
+            })
+        }
         // 关闭右键菜单
         qContextMenu.remove()
       })
     }
+  })
+}
+
+const onConfigView = async (view) => {
+  // 获取设置页文件路径
+  const htmlFilePath = `file:///${pluginPath}/src/setting/setting.html`
+  const cssFilePath = `file:///${pluginPath}/src/setting/setting.css`
+  // 插入设置页
+  const htmlText = await (await fetch(htmlFilePath)).text()
+  view.insertAdjacentHTML('afterbegin', htmlText)
+  // 插入设置页样式
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = cssFilePath
+  document.head.appendChild(link)
+
+  // 获取转换器选择器
+  const converterSelect = view.querySelector('#converterSelect')
+
+  // 获取配置
+  getConfig(dataPath).then((config) => {
+    converterSelect.value = config.converter
+  })
+
+  // 监听选择器变化
+  converterSelect.addEventListener('change', () => {
+    // 修改配置
+    setConfig(dataPath, converterSelect.value)
   })
 }
 
@@ -83,42 +117,14 @@ const fanhuajiConvert = (text) => {
           if (code !== 0) {
             reject(new Error(msg))
           }
-          const unconverted = !text.includes('\n\n\n繁化姬：\n')
-          if (data.text !== text && unconverted) {
-            // 去除前后空格换行
-            data.text = data.text.replace(/^\s+|\s+$/g, '')
-            resolve(`${text}\n\n\n繁化姬：\n${data.text}`)
-          }
+          // 去除前后空白字符
+          data.text = data.text.replace(/^\s+|\s+$/g, '')
+          resolve(data.text)
+        })
+        .catch((error) => {
+          reject(error)
         })
     })
-  })
-}
-
-async function onConfigView(view) {
-  // 获取设置页文件路径
-  const htmlFilePath = `file:///${pluginPath}/src/setting/setting.html`
-  const cssFilePath = `file:///${pluginPath}/src/setting/setting.css`
-  // 插入设置页
-  const htmlText = await (await fetch(htmlFilePath)).text()
-  view.insertAdjacentHTML('afterbegin', htmlText)
-  // 插入设置页样式
-  const link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = cssFilePath
-  document.head.appendChild(link)
-
-  // 获取转换器选择器
-  const converterSelect = view.querySelector('#converterSelect')
-
-  // 获取配置
-  getConfig(dataPath).then((config) => {
-    converterSelect.value = config.converter
-  })
-
-  // 监听选择器变化
-  converterSelect.addEventListener('change', () => {
-    // 修改配置
-    setConfig(dataPath, converterSelect.value)
   })
 }
 
