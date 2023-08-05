@@ -1,10 +1,10 @@
 const { getConfig, setConfig } = window.fanhuaji
 const { plugin: pluginPath, data: dataPath } = LiteLoader.plugins.fanhuaji.path
 
-const separatorHTML = `
+const SEPARATOR_HTML = `
 <div class="q-context-menu-separator" role="separator"></div>
 `
-const fanhuajiHTML = `
+const FANHUAJI_HTML = `
 <a
   id="fanhuaji"
   class="q-context-menu-item q-context-menu-item--normal"
@@ -29,9 +29,9 @@ const onLoad = () => {
       // 获取右键菜单
       const qContextMenu = document.querySelector('#qContextMenu')
       // 插入分隔线
-      qContextMenu.insertAdjacentHTML('beforeend', separatorHTML)
+      qContextMenu.insertAdjacentHTML('beforeend', SEPARATOR_HTML)
       // 插入繁化姬
-      qContextMenu.insertAdjacentHTML('beforeend', fanhuajiHTML)
+      qContextMenu.insertAdjacentHTML('beforeend', FANHUAJI_HTML)
       // 调整右键菜单位置
       const rect = qContextMenu.getBoundingClientRect()
       if (rect.bottom > window.innerHeight) {
@@ -68,16 +68,13 @@ const onLoad = () => {
 
 const onConfigView = async (view) => {
   // 获取设置页文件路径
-  const htmlFilePath = `file:///${pluginPath}/src/setting/setting.html`
-  const cssFilePath = `file:///${pluginPath}/src/setting/setting.css`
+  const htmlFilePath = `llqqnt://local-file/${pluginPath}/src/setting/setting.html`
+  const cssFilePath = `llqqnt://local-file/${pluginPath}/src/setting/setting.css`
   // 插入设置页
   const htmlText = await (await fetch(htmlFilePath)).text()
   view.insertAdjacentHTML('afterbegin', htmlText)
   // 插入设置页样式
-  const link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = cssFilePath
-  document.head.appendChild(link)
+  document.head.insertAdjacentHTML('beforeend', `<link rel="stylesheet" href="${cssFilePath}" />`)
 
   // 获取转换器选择器
   const converterSelect = view.querySelector('#converterSelect')

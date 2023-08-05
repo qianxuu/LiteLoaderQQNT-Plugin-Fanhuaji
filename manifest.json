@@ -1,11 +1,11 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "type": "extension",
   "name": "繁化姬",
   "slug": "fanhuaji",
   "description": "对聊天消息进行简繁转换",
-  "version": "1.5.0",
-  "thumbnail": "https://img.chkaja.com/d0c30d21a9e109c6.png",
+  "version": "1.5.1",
+  "thumbnail": "./icon.png",
   "author": {
     "name": "谦虚",
     "link": "https://github.com/qianxuu"
