@@ -11,7 +11,7 @@
     "link": "https://github.com/qianxuu"
   },
   "repository": {
-    "repo": "LiteLoaderQQNT-Plugin-Fanhuaji",
+    "repo": "qianxuu/LiteLoaderQQNT-Plugin-Fanhuaji",
     "branch": "main"
   },
   "platform": ["win32", "linux", "darwin"],
